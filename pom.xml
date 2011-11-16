@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- vi:ts=4:sw=4:expandtab: -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <!-- Parent -->
+    <parent>
+        <groupId>org.jboss</groupId>
+        <artifactId>jboss-parent</artifactId>
+        <version>7</version>
+    </parent>
+
+    <!-- Model Information -->
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Artifact Information -->
+    <groupId>org.jboss.shrinkwrap.resolver</groupId>
+    <artifactId>resolver-maven-plugin-parent</artifactId>
+    <version>1.0.0-alpha-1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>ShrinkWrap Resolver Maven Plugin Aggregator</name>
+    <description>ShrinkWrap Resolver Maven Plugin Aggregator</description>
+
+    <!-- Properties -->
+    <properties>
+        <version.junit_junit>4.8.2</version.junit_junit>
+    </properties>
+
+    <!-- SCM -->
+    <scm>
+        <connection>scm:git:git://github.com/shrinkwrap/resolver-maven-plugin.git</connection>
+        <developerConnection>scm:git:git@github.com:shrinkwrap/resolver-maven-plugin.git</developerConnection>
+        <url>https://github.com/shrinkwrap/resolver</url>
+    </scm>
+
+    <!-- Issues -->
+    <issueManagement>
+        <system>jira</system>
+        <url>http://jira.jboss.com/jira/browse/SHRINKWRAP</url>
+    </issueManagement>
+
+    <!-- Licenses -->
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <!-- Plugin Configuration -->
+    <build>
+
+        <!-- Plugin Management -->
+        <pluginManagement>
+            <plugins><!--
+                    <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>2.6</version>
+                    <configuration>
+                    <configLocation>code-style/checkstyle.xml</configLocation>
+                    <logViolationsToConsole>true</logViolationsToConsole>
+                    <violationSeverity>error</violationSeverity>
+                    </configuration>
+                    <executions>
+                    <execution>
+                    <id>checkstyle-report</id>
+                    <phase>process-sources</phase>
+                    <goals>
+                    <goal>check</goal>
+                    </goals>
+                    </execution>
+                    </executions>
+                    <dependencies>
+                    <dependency>
+                    <groupId>org.jboss.shrinkwrap.resolver</groupId>
+                    <artifactId>shrinkwrap-resolver-build-resources</artifactId>
+                    <version>${project.version}</version>
+                    </dependency>
+                    </dependencies>
+                    </plugin>
+                    <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>${version.org.apache.maven.plugins_maven-site-plugin}</version>
+                    </plugin>
+                -->
+                <!-- So m2e doesn't throw errors for features it doesn't support in the POM -->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-checkstyle-plugin</artifactId>
+                                        <versionRange>[1.0.0,)</versionRange>
+                                        <goals>
+                                            <goal>check</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <execute />
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+
+            <!-- Release -->
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                </configuration>
+            </plugin>
+
+            <!-- Compiler -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <inherited>true</inherited>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <compilerVersion>1.6</compilerVersion>
+                    <showDeprecation>false</showDeprecation>
+                    <showWarnings>true</showWarnings>
+                    <optimize>true</optimize>
+                    <fork>true</fork>
+                    <compilerArguments>
+                        <source>1.5</source>
+                        <target>1.5</target>
+                    </compilerArguments>
+                    <argLine>-Xmx512M</argLine>
+                    <executable>${JAVA_HOME}/bin/javac</executable>
+                </configuration>
+            </plugin>
+
+            <!-- Surefire -->
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <redirectTestOutputToFile>true</redirectTestOutputToFile>
+                    <trimStackTrace>false</trimStackTrace>
+                    <printSummary>true</printSummary>
+                    <includes>
+                        <include>**/*TestCase.java</include>
+                        <include>**/*TestSuite.java</include>
+                    </includes>
+                    <forkMode>always</forkMode>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- Dependency Management -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${version.junit_junit}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- Aggregate Modules -->
+    <modules>
+        <module>resolver-maven-plugin</module>
+        <module>resolver-maven-plugin-tests</module>
+    </modules>
+
+</project>
