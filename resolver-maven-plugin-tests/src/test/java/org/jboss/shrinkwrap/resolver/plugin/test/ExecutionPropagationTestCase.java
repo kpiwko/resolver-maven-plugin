@@ -36,7 +36,7 @@ public class ExecutionPropagationTestCase {
 
     @Test
     public void propagatedUserActiveProfiles() {
-        Assert.assertEquals("maven.execution.active-profiles was propagated", "swr-profile",
+        Assert.assertNotNull("maven.execution.active-profiles was propagated",
                 System.getProperty("maven.execution.active-profiles"));
     }
 }
